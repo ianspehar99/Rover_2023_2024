@@ -104,3 +104,73 @@ class RobotEKF(EKF):
         
 
         return east, north
+    
+
+    #Example for how to use this class
+#     def run_localization(std_vel, std_gps, std_imu_bearing):
+    #     dt = 0.5  
+    #     ekf = RobotEKF(dt, std_vel, std_gps, std_imu_bearing)
+        
+    #     ekf.x = np.array([[2.0], [3.0], [np.pi/4], [1.0]])  # Initial state
+    #     ekf.P = np.eye(4) * 0.1  # Initial uncertainty
+
+    #     u = np.array([1.0, 0.2])  # Linear velocity = 1 m/s, Angular velocity = 0.2 rad/s
+        
+    #     actual_path = []
+    #     num_steps = 50  # Number of time steps to simulate
+
+    #     # Simulate robot movement
+    #     for _ in range(num_steps):
+    #         ekf.predict(u)
+    #         actual_path.append(ekf.x.flatten())
+
+    #     gps_measurements = []
+    #     # Generate noisy GPS and IMU measurements
+    #     for pos in actual_path:
+    #         noisy_gps = pos[:2] + np.random.normal(0, std_gps, size=2)  # Add noise to GPS position
+    #         noisy_bearing = pos[2] + np.random.normal(0, std_imu_bearing)  # Add noise to IMU bearing
+    #         gps_measurements.append(np.array([*noisy_gps, noisy_bearing]))  # Only one bearing now
+
+    #     estimated_path = []
+    #     bearing_differences = []  # Store bearing errors
+
+    #     # Run the Kalman filter with noisy measurements
+    #     for i, gps_measurement in enumerate(gps_measurements):
+    #         ekf.predict(u)
+    #         ekf.update(gps_measurement.reshape(-1, 1))  # Update the state estimate with noisy measurements
+    #         estimated_path.append(ekf.x.flatten())
+
+    #         # Compute bearing error (absolute difference)
+    #         bearing_error = abs(actual_path[i][2] - ekf.x[2, 0])
+    #         bearing_differences.append(bearing_error)
+
+    #     # Convert lists to numpy arrays for easier plotting
+    #     actual_path = np.array(actual_path)
+    #     gps_measurements = np.array(gps_measurements)
+    #     estimated_path = np.array(estimated_path)
+
+    #     # Plot the results
+    #     plt.figure()
+    #     plt.plot(actual_path[:, 0], actual_path[:, 1], 'g-', label='Actual Path')
+    #     plt.plot(gps_measurements[:, 0], gps_measurements[:, 1], 'rx', label='GPS Measurements')
+    #     plt.plot(estimated_path[:, 0], estimated_path[:, 1], 'b-', label='EKF Estimated Path')
+    #     plt.legend()
+    #     plt.xlabel('X position')
+    #     plt.ylabel('Y position')
+    #     plt.title('EKF Localization with IMU Bearing')
+
+    #     # Calculate and print average localization error
+    #     distance_differences = [
+    #         np.sqrt((actual_path[i, 0] - estimated_path[i, 0])**2 + (actual_path[i, 1] - estimated_path[i, 1])**2)
+    #         for i in range(num_steps)
+    #     ]
+    #     avg_pos_error = np.mean(distance_differences)
+    #     avg_bearing_error = np.mean(bearing_differences)
+
+    #     plt.show()
+    #     print("Avg position error:", avg_pos_error, "meters")
+    #     print("Avg bearing error:", avg_bearing_error, "radians")
+    #     return avg_pos_error, avg_bearing_error
+
+    # # Test with some standard deviations for the sensor noise
+    # avg_pos_error, avg_bearing_error = run_localization(std_vel=0.1, std_gps=2, std_imu_bearing=0.05)

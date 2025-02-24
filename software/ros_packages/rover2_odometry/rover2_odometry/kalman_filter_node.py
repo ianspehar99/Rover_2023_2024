@@ -75,7 +75,7 @@ class EKF_Node(Node):
         
             #___3. Update EKF with gps and imu data___
 
-            # TODO: 1. NEED TO SET ekf.x at the beginning TO INCLUDE THE INITIAL VELOCITY (look at run_localization example function in EKF_Class)
+            # TODO: 1. NEED TO SET ekf.x at the beginning TO INCLUDE THE INITIAL VELOCITY/THETA (look at run_localization example function in EKF_Class)
             # 2. AND ALSO FIGURE OUT HOW to SUBSCRIBE TO CONTROL VELOCITY 
             u = [linear_velocity, angular_velocity]
             z = [x, y, bearing]

@@ -27,6 +27,8 @@ class EKF_Node(Node):
         self.gps_sub = self.create_subscription(Sentence, 'gps/sentence', self.set_gps_val, 10)
 
         self.publisher_ = self.create_publisher(String, 'updated_ekf_position', 10)
+        self.timer = self.create_timer(0.1, self.update_ekf)
+
        
         self.imu_data = None
         self.gps_data = None
@@ -77,7 +79,7 @@ class EKF_Node(Node):
 
             # TODO: 1. NEED TO SET ekf.x at the beginning TO INCLUDE THE INITIAL VELOCITY/THETA (look at run_localization example function in EKF_Class)
             # 2. AND ALSO FIGURE OUT HOW to SUBSCRIBE TO CONTROL VELOCITY 
-            u = [linear_velocity, angular_velocity]
+            u = [linear_velocity, angular_velocity]  #Linear velocity is velocity we set it to/ get from O drive
             z = [x, y, bearing]
             ekf.predict(u)
             ekf.update(z)
